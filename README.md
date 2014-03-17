@@ -27,7 +27,7 @@ Let's say we have a page at `content/special.md`, then we will use:
 
 This will render the HTML of the `special` page.
 
-Let's say we have a page at `content/sub/special.md`, then we will use:
+Let's say we have a page at `content/sub/special-nested.md`, then we will use:
 
 ```html
 {{ render('sub/special-nested') }}

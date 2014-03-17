@@ -2,7 +2,7 @@
 
 /**
  * Render a markdown file inline
- * Usage: {{ markdown(string) }}
+ * Usage: {{ render('page_url') }}
  */
 
 class PhileRender extends \Phile\Plugin\AbstractPlugin implements \Phile\EventObserverInterface {

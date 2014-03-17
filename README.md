@@ -3,6 +3,8 @@ phileRender
 
 Render the content of a page by passing it's URL.
 
+**This plugin requires that you use Twig for your template engine**
+
 ### Installation
 
 * Install [Phile](https://github.com/PhileCMS/Phile)

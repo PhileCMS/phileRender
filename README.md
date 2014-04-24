@@ -5,11 +5,16 @@ Render the content of a page by passing it's URL.
 
 **This plugin requires that you use Twig for your template engine**
 
-### Installation
+### 1.1 Installation (composer)
+```
+php composer.phar require phile/render:*
+```
+
+### 1.2 Installation (Download)
 
 * Install [Phile](https://github.com/PhileCMS/Phile)
-* Clone this repo into `plugins/phileRender`
-* add `$config['plugins']['phileRender'] = array('active' => true);` to your `config.php`
+* Clone this repo into `plugins/phile/render`
+* add `$config['plugins']['phile\\render'] = array('active' => true);` to your `config.php`
 
 ### Usage
 

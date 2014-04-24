@@ -1,11 +1,15 @@
 <?php
+/**
+ * Plugin class
+ */
+namespace Phile\Plugin\Phile\Render;
+
 
 /**
  * Render a markdown file inline
  * Usage: {{ render('page_url') }}
  */
-
-class PhileRender extends \Phile\Plugin\AbstractPlugin implements \Phile\EventObserverInterface {
+class Plugin extends \Phile\Plugin\AbstractPlugin implements \Phile\Gateway\EventObserverInterface {
 	public function __construct() {
 		\Phile\Event::registerEvent('template_engine_registered', $this);
 	}
@@ -13,7 +17,8 @@ class PhileRender extends \Phile\Plugin\AbstractPlugin implements \Phile\EventOb
 	/**
 	 * find a path by the path
 	 * @param  string $pagepath the page you are looking for
-	 * @return page           the found page
+	 *
+	 * @return bool|null|\Phile\Model\Page
 	 */
 	private function find_page($pagepath) {
 		$pageRespository = new \Phile\Repository\Page();
@@ -42,9 +47,15 @@ class PhileRender extends \Phile\Plugin\AbstractPlugin implements \Phile\EventOb
 		}
 	}
 
+	/**
+	 * @param string $eventKey
+	 * @param null   $data
+	 *
+	 * @return mixed|void
+	 */
 	public function on($eventKey, $data = null) {
 		if ($eventKey == 'template_engine_registered') {
-			$render = new Twig_SimpleFunction('render', function ($path) {
+			$render = new \Twig_SimpleFunction('render', function ($path) {
 				$page = $this->find_page($path);
 				if ($page !== false) {
 					// render the content for this page
@@ -54,6 +65,7 @@ class PhileRender extends \Phile\Plugin\AbstractPlugin implements \Phile\EventOb
 					return null;
 				}
 			});
+			/** @var $data['engine'] */
 			$data['engine']->addFunction($render);
 		}
 	}

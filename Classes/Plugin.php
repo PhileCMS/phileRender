@@ -54,8 +54,10 @@ class Plugin extends \Phile\Plugin\AbstractPlugin implements \Phile\Gateway\Even
 	 */
 	public function on($eventKey, $data = null) {
 		if ($eventKey == 'template_engine_registered') {
-			$type = get_class(\Phile\ServiceLocator::getService('Phile_Template'));
-			if (strpos($type, 'Twig') === false) {
+			// check if this installation is using Twig
+			if (!\Phile\Utility::isPluginLoaded("phile\\templateTwig")) {
+				// find the template this install is using
+				$type = get_class(\Phile\ServiceLocator::getService('Phile_Template'));
 				// log this issue
 				error_log("The current Template Service is {$type}. The {{ render }} function is only avaible in Twig.");
 				return;

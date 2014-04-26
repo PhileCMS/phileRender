@@ -4,7 +4,6 @@
  */
 namespace Phile\Plugin\Phile\Render;
 
-
 /**
  * Render a markdown file inline
  * Usage: {{ render('page_url') }}
@@ -55,18 +54,25 @@ class Plugin extends \Phile\Plugin\AbstractPlugin implements \Phile\Gateway\Even
 	 */
 	public function on($eventKey, $data = null) {
 		if ($eventKey == 'template_engine_registered') {
-			$render = new \Twig_SimpleFunction('render', function ($path) {
-				$page = $this->find_page($path);
-				if ($page !== false) {
-					// render the content for this page
-					return $page->getContent();
-				} else {
-					// if there is no page, returning null will fail silently
-					return null;
-				}
-			});
-			/** @var $data['engine'] */
-			$data['engine']->addFunction($render);
+			$type = get_class(\Phile\ServiceLocator::getService('Phile_Template'));
+			if (strpos($type, 'Twig') === false) {
+				// log this issue
+				error_log("The current Template Service is {$type}. The {{ render }} function is only avaible in Twig.");
+				return;
+			} else {
+				$render = new \Twig_SimpleFunction('render', function ($path) {
+					$page = $this->find_page($path);
+					if ($page !== false) {
+						// render the content for this page
+						return $page->getContent();
+					} else {
+						// if there is no page, returning null will fail silently
+						return null;
+					}
+				});
+				/** @var $data['engine'] */
+				$data['engine']->addFunction($render);
+			}
 		}
 	}
 }
